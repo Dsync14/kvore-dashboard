@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>KVORE Dashboard — System Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 32px 24px 40px; }
+
+  .title { text-align: center; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 36px; }
+
+  .flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: nowrap; }
+
+  .node { display: flex; flex-direction: column; align-items: center; width: 130px; flex-shrink: 0; }
+  .node-box {
+    width: 110px; border-radius: 12px; padding: 16px 10px;
+    text-align: center; border: 1px solid rgba(255,255,255,0.1);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .node-box:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+  .node-icon { font-size: 26px; margin-bottom: 8px; }
+  .node-name { font-size: 12px; font-weight: 700; color: #f0f0f0; letter-spacing: .04em; }
+  .node-sub  { font-size: 10px; color: #666; margin-top: 3px; line-height: 1.3; }
+
+  .node-shopify .node-box { background: #0d1f12; border-color: rgba(95,185,76,.25); }
+  .node-github  .node-box { background: #111520; border-color: rgba(83,74,183,.25); }
+  .node-pages   .node-box { background: #1a1012; border-color: rgba(216,90,48,.25); }
+  .node-dash    .node-box { background: #10101a; border-color: rgba(83,74,183,.5); }
+
+  .arrow { display: flex; flex-direction: column; align-items: center; width: 60px; flex-shrink: 0; gap: 4px; }
+  .arrow-line { width: 100%; height: 2px; background: #222; position: relative; overflow: visible; }
+  .arrow-dot { position: absolute; top: -3px; left: 0; width: 8px; height: 8px; border-radius: 50%; animation: slideDot 2s ease-in-out infinite; }
+  .arrow-label { font-size: 9px; color: #555; text-align: center; letter-spacing: .03em; line-height: 1.3; }
+
+  .a1 .arrow-dot { background: #5fb94c; animation-delay: 0s; }
+  .a2 .arrow-dot { background: #534AB7; animation-delay: .5s; }
+  .a3 .arrow-dot { background: #D85A30; animation-delay: 1s; }
+
+  @keyframes slideDot {
+    0%   { left: 0; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: calc(100% - 8px); opacity: 0; }
+  }
+
+  .cron-badge {
+    margin-top: 10px;
+    background: rgba(83,74,183,.15); border: 1px solid rgba(83,74,183,.3);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 9px; color: #a89ff0; letter-spacing: .04em;
+    animation: fadePulse 3s ease-in-out infinite;
+  }
+  @keyframes fadePulse { 0%,100% { opacity: .7; } 50% { opacity: 1; } }
+
+  .details { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+  .detail-card { background: #111; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; padding: 14px; }
+  .detail-card h3 { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+  .detail-card ul { list-style: none; }
+  .detail-card li { font-size: 10px; color: #777; padding: 2px 0; display: flex; gap: 6px; }
+  .detail-card li::before { content: '→'; color: #444; flex-shrink: 0; }
+
+  .c-green  h3 { color: #5fb94c; }
+  .c-purple h3 { color: #534AB7; }
+  .c-orange h3 { color: #D85A30; }
+  .c-blue   h3 { color: #7F77DD; }
+</style>
+</head>
+<body>
+
+<div class="title">KVORE Dashboard — System Architecture</div>
+
+<div class="flow">
+  <div class="node node-shopify">
+    <div class="node-box">
+      <div class="node-icon">🛒</div>
+      <div class="node-name">Shopify</div>
+      <div class="node-sub">kvore.com.au</div>
+    </div>
+  </div>
+  <div class="arrow a1">
+    <div class="arrow-line"><div class="arrow-dot"></div></div>
+    <div class="arrow-label">Admin API<br>read-only</div>
+  </div>
+  <div class="node node-github">
+    <div class="node-box">
+      <div class="node-icon">⚙️</div>
+      <div class="node-name">GitHub Actions</div>
+      <div class="node-sub">fetch-shopify.js</div>
+    </div>
+    <div class="cron-badge">⏱ Every 12 hours</div>
+  </div>
+  <div class="arrow a2">
+    <div class="arrow-line"><div class="arrow-dot"></div></div>
+    <div class="arrow-label">commits<br>data.json</div>
+  </div>
+  <div class="node node-pages">
+    <div class="node-box">
+      <div class="node-icon">📄</div>
+      <div class="node-name">GitHub Pages</div>
+      <div class="node-sub">static host</div>
+    </div>
+  </div>
+  <div class="arrow a3">
+    <div class="arrow-line"><div class="arrow-dot"></div></div>
+    <div class="arrow-label">serves<br>index.html</div>
+  </div>
+  <div class="node node-dash">
+    <div class="node-box">
+      <div class="node-icon">📊</div>
+      <div class="node-name">Dashboard</div>
+      <div class="node-sub">password locked</div>
+    </div>
+  </div>
+</div>
+
+<div class="details">
+  <div class="detail-card c-green">
+    <h3>Shopify API</h3>
+    <ul>
+      <li>read_orders</li>
+      <li>read_customers</li>
+      <li>read_products</li>
+      <li>read_analytics</li>
+      <li>Token: shpat_…</li>
+    </ul>
+  </div>
+  <div class="detail-card c-purple">
+    <h3>GitHub Actions</h3>
+    <ul>
+      <li>Runs every 12h (cron)</li>
+      <li>Node.js 20 script</li>
+      <li>Writes data.json</li>
+      <li>Auto-commits & pushes</li>
+      <li>Repo: Dsync14/kvore-dashboard</li>
+    </ul>
+  </div>
+  <div class="detail-card c-orange">
+    <h3>GitHub Pages</h3>
+    <ul>
+      <li>Hosts index.html</li>
+      <li>Serves data.json</li>
+      <li>Free static hosting</li>
+      <li>Auto-deploys on push</li>
+      <li>dsync14.github.io/…</li>
+    </ul>
+  </div>
+  <div class="detail-card c-blue">
+    <h3>Dashboard</h3>
+    <ul>
+      <li>Password: KVORE2026</li>
+      <li>Chart.js charts</li>
+      <li>Reads data.json</li>
+      <li>Refresh reloads cache</li>
+      <li>Private access only</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
