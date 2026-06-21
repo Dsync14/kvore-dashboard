@@ -1,39 +1,39 @@
 {
-  "lastUpdated": "2026-06-21T10:37:41.962Z",
+  "lastUpdated": "2026-06-21T11:32:40.724Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
   "metrics": {
-    "totalRevenue": 0,
-    "totalOrders": 0,
-    "aov": 0,
-    "totalCustomers": 7,
-    "activeSubscribers": 4,
+    "totalRevenue": 28,
+    "totalOrders": 1,
+    "aov": 28,
+    "totalCustomers": 8,
+    "activeSubscribers": 5,
     "notSubscribed": 1,
     "unsubscribed": 0,
     "totalProducts": 7,
-    "totalInventory": 320
+    "totalInventory": 319
   },
   "salesTrend": {
     "today": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 28,
+      "orders": 1,
+      "trend": "up"
     },
     "thisWeek": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 28,
+      "orders": 1,
+      "trend": "up"
     },
     "thisMonth": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 28,
+      "orders": 1,
+      "trend": "up"
     },
     "last30Days": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 28,
+      "orders": 1,
+      "trend": "up"
     },
     "prevMonth": {
       "revenue": 0,
@@ -159,7 +159,7 @@
     },
     {
       "date": "2026-06-21",
-      "revenue": 0
+      "revenue": 28
     }
   ],
   "products": [
@@ -168,9 +168,9 @@
       "type": "Socks",
       "sku": "KV-SK-BLK",
       "price": 19.99,
-      "inventory": 50,
-      "unitsSold": 0,
-      "revenue": 0
+      "inventory": 49,
+      "unitsSold": 1,
+      "revenue": 19.99
     },
     {
       "name": "Blue Label Fragment Tee",
@@ -229,8 +229,8 @@
   ],
   "categoryDistribution": {
     "Socks": {
-      "units": 100,
-      "revenue": 0
+      "units": 99,
+      "revenue": 19.99
     },
     "T Shirt": {
       "units": 220,
@@ -241,5 +241,13 @@
       "revenue": 0
     }
   },
-  "recentOrders": []
+  "recentOrders": [
+    {
+      "id": 1001,
+      "date": "2026-06-21T21:25:50+10:00",
+      "customer": "Shubneet Kaur",
+      "total": 28,
+      "status": "paid"
+    }
+  ]
 }
