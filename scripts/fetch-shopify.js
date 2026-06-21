@@ -70,12 +70,12 @@ function startOf(unit) {
 }
 
 function trend(curr, prev) {
-  if (prev === 0 && curr === 0) return '→';
-  if (prev === 0) return '↑';
+  if (prev === 0 && curr === 0) return 'flat';
+  if (prev === 0) return 'up';
   const pct = ((curr - prev) / prev) * 100;
-  if (pct > 2) return '↑';
-  if (pct < -2) return '↓';
-  return '→';
+  if (pct > 2) return 'up';
+  if (pct < -2) return 'down';
+  return 'flat';
 }
 
 async function main() {
