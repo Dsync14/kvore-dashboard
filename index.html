@@ -70,7 +70,7 @@
     80%      { transform: translateX(6px); }
   }
 
-  /* ── Lock button on dashboard ── */
+  /* ── Header action buttons ── */
   #lockBtn {
     background: none; border: 1px solid rgba(255,255,255,0.1);
     border-radius: 6px; padding: 5px 12px;
@@ -79,6 +79,43 @@
     transition: border-color .2s, color .2s;
   }
   #lockBtn:hover { border-color: rgba(255,255,255,0.3); color: #aaa; }
+
+  #refreshBtn {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #534AB7; border: none; border-radius: 8px;
+    padding: 7px 16px; color: #fff; font-size: 12px;
+    font-weight: 600; cursor: pointer; font-family: inherit;
+    letter-spacing: .04em; transition: background .2s, opacity .2s;
+  }
+  #refreshBtn:hover:not(:disabled) { background: #6560d4; }
+  #refreshBtn:disabled { opacity: .6; cursor: not-allowed; }
+  #refreshBtn .spin {
+    display: none; width: 13px; height: 13px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  #refreshBtn.loading .spin { display: inline-block; }
+  #refreshBtn.loading .btn-icon { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Refresh status bar ── */
+  #refreshStatus {
+    display: none; align-items: center; gap: 10px;
+    background: rgba(83,74,183,0.12); border: 1px solid rgba(83,74,183,0.3);
+    border-radius: 8px; padding: 10px 16px; margin-bottom: 20px;
+    font-size: 12px; color: #a89ff0;
+  }
+  #refreshStatus.visible { display: flex; }
+  #refreshStatus .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #534AB7; flex-shrink: 0;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .4; transform: scale(.8); }
+  }
 
   :root {
     --bg:        #0a0a0a;
@@ -254,10 +291,21 @@
   <div class="header-right" style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
     <div style="display:flex;align-items:center;gap:10px;">
       <div class="badge"><span class="dot"></span> Live Data</div>
+      <button id="refreshBtn" onclick="triggerRefresh()" title="Refresh dashboard from Shopify">
+        <span class="spin"></span>
+        <span class="btn-icon">↻</span>
+        <span id="refreshLabel">Refresh</span>
+      </button>
       <button id="lockBtn" onclick="lockDashboard()" title="Lock dashboard">&#128274; Lock</button>
     </div>
     <div class="last-updated" id="lastUpdated">Loading…</div>
   </div>
+</div>
+
+<!-- Refresh status -->
+<div id="refreshStatus">
+  <span class="status-dot"></span>
+  <span id="refreshStatusText">Pulling latest data from Shopify — refreshes automatically in ~90s…</span>
 </div>
 
 <!-- KPI Cards -->
@@ -487,6 +535,75 @@ async function loadData() {
 }
 
 loadData();
+
+/* ── Auto-refresh via GitHub Actions ── */
+const GH_OWNER    = 'Dsync14';
+const GH_REPO     = 'kvore-dashboard';
+const GH_WORKFLOW = 'refresh.yml';
+// Paste your GitHub PAT (workflow scope) below after completing setup:
+const GH_PAT      = 'PASTE_GITHUB_PAT_HERE';
+
+async function triggerRefresh() {
+  if (GH_PAT === 'PASTE_GITHUB_PAT_HERE') {
+    alert('Setup not complete — please add your GitHub PAT to complete automation. See setup guide.');
+    return;
+  }
+  const btn = document.getElementById('refreshBtn');
+  const status = document.getElementById('refreshStatus');
+  const statusText = document.getElementById('refreshStatusText');
+  const label = document.getElementById('refreshLabel');
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  label.textContent = 'Updating…';
+  status.classList.add('visible');
+  statusText.textContent = 'Pulling latest Shopify data — dashboard refreshes in ~90s…';
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${GH_PAT}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ref: 'main' })
+      }
+    );
+
+    if (res.status === 204) {
+      // Success — countdown then reload data
+      let secs = 90;
+      const timer = setInterval(() => {
+        secs--;
+        statusText.textContent = `Shopify data being processed — reloading in ${secs}s…`;
+        if (secs <= 0) {
+          clearInterval(timer);
+          statusText.textContent = 'Loading fresh data…';
+          loadData().then(() => {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+            label.textContent = 'Refresh';
+            setTimeout(() => status.classList.remove('visible'), 3000);
+            statusText.textContent = 'Dashboard updated successfully.';
+          });
+        }
+      }, 1000);
+    } else {
+      throw new Error(`GitHub API returned ${res.status}`);
+    }
+  } catch (err) {
+    statusText.textContent = `Error: ${err.message} — check your GitHub PAT.`;
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    label.textContent = 'Refresh';
+  }
+}
+
+/* ── Auto-refresh schedule: reload data.json every 12h if tab is open ── */
+setInterval(loadData, 12 * 60 * 60 * 1000);
 
 /* ── Auth ── */
 const PASS_HASH = '9a618248b64db62d15b300a07b00580b'; /* MD5 of KVORE2026 — change via: update PASS_HASH to MD5 of your new passphrase */
