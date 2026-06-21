@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-21T09:20:57.557Z",
+  "lastUpdated": "2026-06-21T10:37:41.962Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -18,28 +18,150 @@
     "today": {
       "revenue": 0,
       "orders": 0,
-      "trend": "→"
+      "trend": "flat"
     },
     "thisWeek": {
       "revenue": 0,
       "orders": 0,
-      "trend": "→"
+      "trend": "flat"
     },
     "thisMonth": {
       "revenue": 0,
       "orders": 0,
-      "trend": "→"
+      "trend": "flat"
     },
     "last30Days": {
       "revenue": 0,
       "orders": 0,
-      "trend": "→"
+      "trend": "flat"
     },
     "prevMonth": {
       "revenue": 0,
       "orders": 0
     }
   },
+  "dailyRevenue": [
+    {
+      "date": "2026-05-23",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-24",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-25",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-26",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-27",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-28",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-29",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-30",
+      "revenue": 0
+    },
+    {
+      "date": "2026-05-31",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-01",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-02",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-03",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-04",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-05",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-06",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-07",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-08",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-09",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-10",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-11",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-12",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-13",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-14",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-15",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-16",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-17",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-18",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-19",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-20",
+      "revenue": 0
+    },
+    {
+      "date": "2026-06-21",
+      "revenue": 0
+    }
+  ],
   "products": [
     {
       "name": "Black Essential Socks",
