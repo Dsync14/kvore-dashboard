@@ -179,6 +179,18 @@ async function main() {
     status:   o.financial_status
   }));
 
+  // ── Daily Revenue (last 30 days) ──────────────────────────────────────────
+  const dailyRevenue = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date();
+    d.setUTCDate(d.getUTCDate() - i);
+    const dateStr = d.toISOString().slice(0, 10);
+    const dayRevenue = paidOrders
+      .filter(o => o.created_at.slice(0, 10) === dateStr)
+      .reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
+    dailyRevenue.push({ date: dateStr, revenue: parseFloat(dayRevenue.toFixed(2)) });
+  }
+
   // ── Write data.json ───────────────────────────────────────────────────────
   const output = {
     lastUpdated: new Date().toISOString(),
@@ -197,6 +209,7 @@ async function main() {
       totalInventory
     },
     salesTrend,
+    dailyRevenue,
     products: productList,
     categoryDistribution,
     recentOrders

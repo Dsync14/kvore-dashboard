@@ -333,6 +333,21 @@
   </div>
 </div>
 
+<!-- Revenue Line Chart -->
+<div class="section-header">Revenue — last 30 days</div>
+<div class="chart-card" style="margin-bottom:28px;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+    <div>
+      <div class="chart-title">Daily Revenue</div>
+      <div class="chart-subtitle" id="lineChartSub">Loading…</div>
+    </div>
+    <div id="lineChartBadge" style="font-size:12px;color:var(--muted);text-align:right;"></div>
+  </div>
+  <div class="chart-wrap" style="height:260px;">
+    <canvas id="revenueLineChart" role="img" aria-label="Daily revenue line chart for last 30 days"></canvas>
+  </div>
+</div>
+
 <!-- Charts -->
 <div class="section-header">Distribution charts</div>
 <div class="charts-grid">
@@ -386,8 +401,9 @@
 <script>
 const COLORS = ['#534AB7','#5DCAA5','#D85A30','#D4537E','#EF9F27','#7F77DD','#888780'];
 
-let productChartInst = null;
-let subChartInst     = null;
+let productChartInst  = null;
+let subChartInst      = null;
+let revenueLineInst   = null;
 
 function fmt(n) {
   return new Intl.NumberFormat('en-AU', { style:'currency', currency:'AUD', maximumFractionDigits:2 }).format(n);
@@ -404,6 +420,89 @@ function buildLegend(id, labels, data, colors) {
       <span class="legend-dot" style="background:${colors[i]}"></span>
       ${lbl}&nbsp;<span class="legend-val">${pct}%</span>
     </span>`;
+  });
+}
+
+function renderLineChart(d) {
+  const daily = d.dailyRevenue || [];
+  const labels = daily.map(r => {
+    const dt = new Date(r.date + 'T00:00:00');
+    return dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+  });
+  const values = daily.map(r => r.revenue);
+  const totalPeriod = values.reduce((a, b) => a + b, 0);
+  const peakDay = daily.reduce((best, r) => r.revenue > best.revenue ? r : best, { revenue: 0, date: '' });
+  const hasData = totalPeriod > 0;
+
+  document.getElementById('lineChartSub').textContent = hasData
+    ? `${fmt(totalPeriod)} total over 30 days`
+    : 'No sales yet — chart will populate after first order';
+
+  document.getElementById('lineChartBadge').innerHTML = hasData
+    ? `Peak: <strong style="color:var(--accent2)">${fmt(peakDay.revenue)}</strong><br><span style="font-size:10px">${new Date(peakDay.date+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short'})}</span>`
+    : '';
+
+  const canvas = document.getElementById('revenueLineChart');
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 260);
+  grad.addColorStop(0, 'rgba(83,74,183,0.35)');
+  grad.addColorStop(1, 'rgba(83,74,183,0)');
+
+  if (revenueLineInst) revenueLineInst.destroy();
+  revenueLineInst = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: '#534AB7',
+        borderWidth: 2,
+        backgroundColor: grad,
+        pointBackgroundColor: values.map(v => v > 0 ? '#534AB7' : 'transparent'),
+        pointBorderColor: values.map(v => v > 0 ? '#7F77DD' : 'transparent'),
+        pointRadius: values.map(v => v > 0 ? 5 : 2),
+        pointHoverRadius: 7,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + fmt(ctx.parsed.y)
+          },
+          backgroundColor: '#1a1a1a',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          titleColor: '#aaa',
+          bodyColor: '#f0f0f0',
+          padding: 10
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#555', font: { size: 10 },
+            maxTicksLimit: 10,
+            maxRotation: 0
+          }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#555', font: { size: 10 },
+            callback: v => v === 0 ? '$0' : fmt(v)
+          },
+          beginAtZero: true
+        }
+      }
+    }
   });
 }
 
@@ -525,6 +624,7 @@ async function loadData() {
     const subPct = d.metrics.totalCustomers > 0 ? Math.round((d.metrics.activeSubscribers/d.metrics.totalCustomers)*100) : 0;
     document.getElementById('kpiSubsSub').textContent = `${subPct}% of ${d.metrics.totalCustomers} customers`;
 
+    renderLineChart(d);
     renderCharts(d);
     renderProducts(d);
     renderTrend(d);
