@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-21T07:00:00Z",
+  "lastUpdated": "2026-06-21T08:51:40.373Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -7,33 +7,40 @@
     "totalRevenue": 0,
     "totalOrders": 0,
     "aov": 0,
-    "totalCustomers": 7,
-    "activeSubscribers": 4,
-    "notSubscribed": 3,
+    "totalCustomers": 0,
+    "activeSubscribers": 0,
+    "notSubscribed": 0,
     "unsubscribed": 0,
-    "totalProducts": 7,
-    "totalInventory": 370
+    "totalProducts": 0,
+    "totalInventory": 0
   },
   "salesTrend": {
-    "today": { "revenue": 0, "orders": 0 },
-    "thisWeek": { "revenue": 0, "orders": 0 },
-    "thisMonth": { "revenue": 0, "orders": 0 },
-    "last30Days": { "revenue": 0, "orders": 0 },
-    "prevMonth": { "revenue": 0, "orders": 0 }
+    "today": {
+      "revenue": 0,
+      "orders": 0,
+      "trend": "→"
+    },
+    "thisWeek": {
+      "revenue": 0,
+      "orders": 0,
+      "trend": "→"
+    },
+    "thisMonth": {
+      "revenue": 0,
+      "orders": 0,
+      "trend": "→"
+    },
+    "last30Days": {
+      "revenue": 0,
+      "orders": 0,
+      "trend": "→"
+    },
+    "prevMonth": {
+      "revenue": 0,
+      "orders": 0
+    }
   },
-  "products": [
-    { "name": "Blue Label Fragment Tee", "type": "T Shirt", "sku": "KV-TS-BLF", "price": 64.99, "inventory": 55, "unitsSold": 0, "revenue": 0 },
-    { "name": "Szn 01 Highway Tee",      "type": "T Shirt", "sku": "KV-TS-ORB", "price": 59.99, "inventory": 55, "unitsSold": 0, "revenue": 0 },
-    { "name": "Off Radar Moto Tee",      "type": "T Shirt", "sku": "KV-TS-ORW", "price": 59.99, "inventory": 55, "unitsSold": 0, "revenue": 0 },
-    { "name": "Unstelle Box Tee",        "type": "T Shirt", "sku": "KV-TS-MU",  "price": 59.99, "inventory": 55, "unitsSold": 0, "revenue": 0 },
-    { "name": "Black Essential Socks",   "type": "Socks",   "sku": "KV-SK-BLK", "price": 19.99, "inventory": 50, "unitsSold": 0, "revenue": 0 },
-    { "name": "White Essential Socks",   "type": "Socks",   "sku": "KV-SK-WHT", "price": 19.99, "inventory": 50, "unitsSold": 0, "revenue": 0 },
-    { "name": "Signature Gift Card",     "type": "Gift Card","sku": "GIFT",     "price": 50.00, "inventory": 0,  "unitsSold": 0, "revenue": 0 }
-  ],
-  "categoryDistribution": {
-    "T Shirt": { "units": 220, "revenue": 0 },
-    "Socks":   { "units": 100, "revenue": 0 },
-    "Gift Card":{ "units": 0,  "revenue": 0 }
-  },
+  "products": [],
+  "categoryDistribution": {},
   "recentOrders": []
 }
