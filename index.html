@@ -263,6 +263,40 @@
     .kpi-grid { grid-template-columns: 1fr 1fr; }
     .charts-grid, .two-col { grid-template-columns: 1fr; }
   }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 14px 40px; }
+
+    /* Header */
+    .header { flex-direction: column; gap: 14px; margin-bottom: 24px; }
+    .header-right { align-items: flex-start !important; width: 100%; }
+    .header-right > div:first-child { flex-wrap: wrap; gap: 8px; }
+    .logo { font-size: 18px; }
+    .header-meta { font-size: 11px; }
+    #refreshBtn { font-size: 11px; padding: 6px 12px; }
+    #lockBtn { font-size: 10px; padding: 4px 10px; }
+    .badge { font-size: 11px; padding: 5px 10px; }
+    .last-updated { font-size: 10px; }
+
+    /* KPI — full width stack on small phones */
+    .kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kpi-value { font-size: 22px; }
+    .kpi-card { padding: 14px 14px; }
+
+    /* Charts */
+    .chart-card { padding: 16px; }
+    .chart-wrap { height: 180px; }
+
+    /* Tables — horizontal scroll */
+    .table-card { padding: 14px 12px; overflow-x: auto; }
+    table { min-width: 420px; }
+
+    /* Lock screen */
+    .lock-card { width: calc(100vw - 32px); padding: 28px 20px; }
+
+    /* Section headers */
+    .section-header { font-size: 10px; }
+  }
 </style>
 </head>
 <body>
