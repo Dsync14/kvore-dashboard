@@ -536,18 +536,7 @@ async function loadData() {
 
 loadData();
 
-/* ── Auto-refresh via GitHub Actions ── */
-const GH_OWNER    = 'Dsync14';
-const GH_REPO     = 'kvore-dashboard';
-const GH_WORKFLOW = 'refresh.yml';
-// Paste your GitHub PAT (workflow scope) below after completing setup:
-const GH_PAT      = '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';
-
 async function triggerRefresh() {
-  if (GH_PAT === 'PASTE_GITHUB_PAT_HERE') {
-    alert('Setup not complete — please add your GitHub PAT to complete automation. See setup guide.');
-    return;
-  }
   const btn = document.getElementById('refreshBtn');
   const status = document.getElementById('refreshStatus');
   const statusText = document.getElementById('refreshStatusText');
@@ -555,51 +544,17 @@ async function triggerRefresh() {
 
   btn.disabled = true;
   btn.classList.add('loading');
-  label.textContent = 'Updating…';
+  label.textContent = 'Reloading…';
   status.classList.add('visible');
-  statusText.textContent = 'Pulling latest Shopify data — dashboard refreshes in ~90s…';
+  statusText.textContent = 'Loading latest data…';
 
-  try {
-    const res = await fetch(
-      `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/actions/workflows/${GH_WORKFLOW}/dispatches`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `token ${GH_PAT}`,
-          'Accept': 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ ref: 'main' })
-      }
-    );
+  await loadData();
 
-    if (res.status === 204) {
-      // Success — countdown then reload data
-      let secs = 90;
-      const timer = setInterval(() => {
-        secs--;
-        statusText.textContent = `Shopify data being processed — reloading in ${secs}s…`;
-        if (secs <= 0) {
-          clearInterval(timer);
-          statusText.textContent = 'Loading fresh data…';
-          loadData().then(() => {
-            btn.disabled = false;
-            btn.classList.remove('loading');
-            label.textContent = 'Refresh';
-            setTimeout(() => status.classList.remove('visible'), 3000);
-            statusText.textContent = 'Dashboard updated successfully.';
-          });
-        }
-      }, 1000);
-    } else {
-      throw new Error(`GitHub API returned ${res.status}`);
-    }
-  } catch (err) {
-    statusText.textContent = `Error: ${err.message} — check your GitHub PAT.`;
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    label.textContent = 'Refresh';
-  }
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  label.textContent = 'Refresh';
+  statusText.textContent = 'Dashboard updated. Shopify data auto-syncs every 12 hours.';
+  setTimeout(() => status.classList.remove('visible'), 4000);
 }
 
 /* ── Auto-refresh schedule: reload data.json every 12h if tab is open ── */
