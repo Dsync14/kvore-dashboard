@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-21T08:51:40.373Z",
+  "lastUpdated": "2026-06-21T09:20:57.557Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -7,12 +7,12 @@
     "totalRevenue": 0,
     "totalOrders": 0,
     "aov": 0,
-    "totalCustomers": 0,
-    "activeSubscribers": 0,
-    "notSubscribed": 0,
+    "totalCustomers": 7,
+    "activeSubscribers": 4,
+    "notSubscribed": 1,
     "unsubscribed": 0,
-    "totalProducts": 0,
-    "totalInventory": 0
+    "totalProducts": 7,
+    "totalInventory": 320
   },
   "salesTrend": {
     "today": {
@@ -40,7 +40,84 @@
       "orders": 0
     }
   },
-  "products": [],
-  "categoryDistribution": {},
+  "products": [
+    {
+      "name": "Black Essential Socks",
+      "type": "Socks",
+      "sku": "KV-SK-BLK",
+      "price": 19.99,
+      "inventory": 50,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "Blue Label Fragment Tee",
+      "type": "T Shirt",
+      "sku": "KV-TS-BLF-S",
+      "price": 64.99,
+      "inventory": 55,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "Off Radar Moto Tee",
+      "type": "T Shirt",
+      "sku": "KV-TS-ORW-S",
+      "price": 59.99,
+      "inventory": 55,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "Signature Gift card",
+      "type": "Other",
+      "sku": "",
+      "price": 50,
+      "inventory": 0,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "Szn 01 Highway Tee",
+      "type": "T Shirt",
+      "sku": "KV-TS-ORB-S",
+      "price": 59.99,
+      "inventory": 55,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "Unstelle Box Tee",
+      "type": "T Shirt",
+      "sku": "KV-TS-MU-S",
+      "price": 59.99,
+      "inventory": 55,
+      "unitsSold": 0,
+      "revenue": 0
+    },
+    {
+      "name": "White Essential Socks",
+      "type": "Socks",
+      "sku": "KV-SK-WHT",
+      "price": 19.99,
+      "inventory": 50,
+      "unitsSold": 0,
+      "revenue": 0
+    }
+  ],
+  "categoryDistribution": {
+    "Socks": {
+      "units": 100,
+      "revenue": 0
+    },
+    "T Shirt": {
+      "units": 220,
+      "revenue": 0
+    },
+    "Other": {
+      "units": 0,
+      "revenue": 0
+    }
+  },
   "recentOrders": []
 }
