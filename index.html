@@ -526,9 +526,10 @@ function renderCharts(d) {
   };
 
   // Product distribution — by revenue if any, else by inventory
-  const hasRevenue = d.products.some(p => p.revenue > 0);
-  const prodLabels = d.products.filter(p=>p.inventory>0||p.unitsSold>0).map(p=>p.name.replace(' Essential Socks',' Socks').replace(' Box Tee',' Box').replace(' Fragment Tee',' Fragment').replace(' Highway Tee',' Highway').replace(' Moto Tee',' Moto'));
-  const prodData   = d.products.filter(p=>p.inventory>0||p.unitsSold>0).map(p => hasRevenue ? p.revenue : p.inventory);
+  const realProducts = d.products.filter(p => p.type !== 'Other');
+  const hasRevenue = realProducts.some(p => p.revenue > 0);
+  const prodLabels = realProducts.filter(p=>p.inventory>0||p.unitsSold>0).map(p=>p.name.replace(' Essential Socks',' Socks').replace(' Box Tee',' Box').replace(' Fragment Tee',' Fragment').replace(' Highway Tee',' Highway').replace(' Moto Tee',' Moto'));
+  const prodData   = realProducts.filter(p=>p.inventory>0||p.unitsSold>0).map(p => hasRevenue ? p.revenue : p.inventory);
   const prodColors = COLORS.slice(0, prodLabels.length);
 
   document.getElementById('prodChartSub').textContent = hasRevenue
@@ -561,7 +562,7 @@ function renderCharts(d) {
 
 function renderProducts(d) {
   const total = d.metrics.totalRevenue;
-  const rows = [...d.products]
+  const rows = [...d.products].filter(p => p.type !== 'Other')
     .sort((a,b) => b.unitsSold - a.unitsSold || b.revenue - a.revenue)
     .map((p,i) => {
       const pct = total > 0 ? ((p.revenue/total)*100).toFixed(1)+'%' : '<span class="zero">—</span>';
