@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KVORE — Shopify Analytics Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a0a0a;
+    --surface:   #111111;
+    --surface2:  #1a1a1a;
+    --border:    rgba(255,255,255,0.08);
+    --text:      #f0f0f0;
+    --muted:     #888;
+    --accent:    #534AB7;
+    --accent2:   #5DCAA5;
+    --accent3:   #D85A30;
+    --accent4:   #D4537E;
+    --accent5:   #EF9F27;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 32px 40px 60px;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-size: 22px; font-weight: 700; letter-spacing: .12em; color: var(--text); }
+  .logo span { color: var(--accent); }
+  .header-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 14px;
+    font-size: 12px; color: var(--muted);
+  }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); }
+  .header-right { text-align: right; }
+  .last-updated { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  /* ── KPI Row ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent-color, var(--accent));
+  }
+  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .kpi-sub { font-size: 11px; color: var(--muted); }
+  .kpi-trend-up   { color: var(--accent2); }
+  .kpi-trend-down { color: var(--accent3); }
+
+  /* ── Section headers ── */
+  .section-header {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--muted);
+    margin-bottom: 16px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Charts Row ── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .chart-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .chart-subtitle { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+  .chart-wrap { position: relative; height: 220px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .legend-val { color: var(--text); font-weight: 600; }
+
+  /* ── Tables ── */
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 14px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--muted); font-weight: 600; padding: 0 12px 12px 0;
+    text-align: left; border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td { padding: 12px 12px 12px 0; font-size: 13px; color: var(--text); vertical-align: middle; }
+  .rank { color: var(--muted); font-size: 12px; width: 24px; }
+  .product-name { font-weight: 500; }
+  .product-type { display: inline-block; background: var(--surface2); border-radius: 4px; padding: 2px 7px; font-size: 10px; color: var(--muted); margin-left: 6px; }
+  .zero { color: var(--muted); }
+  .trend-flat { color: var(--muted); }
+  .trend-up   { color: var(--accent2); }
+  .trend-down { color: var(--accent3); }
+
+  /* ── Two-column layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* ── Loading state ── */
+  .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: 13px; }
+
+  @media (max-width: 900px) {
+    body { padding: 20px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .charts-grid, .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo">KV<span>O</span>RE</div>
+    <div class="header-meta">Shopify Analytics Dashboard · kvore.com.au · AUD</div>
+  </div>
+  <div class="header-right">
+    <div class="badge"><span class="dot"></span> Live Data</div>
+    <div class="last-updated" id="lastUpdated">Loading…</div>
+  </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="section-header">Store overview</div>
+<div class="kpi-grid">
+  <div class="kpi-card" style="--accent-color: var(--accent)">
+    <div class="kpi-label">Total Revenue</div>
+    <div class="kpi-value" id="kpiRevenue">—</div>
+    <div class="kpi-sub" id="kpiRevenueSub">Loading…</div>
+  </div>
+  <div class="kpi-card" style="--accent-color: var(--accent2)">
+    <div class="kpi-label">Total Orders</div>
+    <div class="kpi-value" id="kpiOrders">—</div>
+    <div class="kpi-sub" id="kpiOrdersSub">Loading…</div>
+  </div>
+  <div class="kpi-card" style="--accent-color: var(--accent5)">
+    <div class="kpi-label">Avg Order Value</div>
+    <div class="kpi-value" id="kpiAOV">—</div>
+    <div class="kpi-sub" id="kpiAOVSub">Loading…</div>
+  </div>
+  <div class="kpi-card" style="--accent-color: var(--accent4)">
+    <div class="kpi-label">Email Subscribers</div>
+    <div class="kpi-value" id="kpiSubs">—</div>
+    <div class="kpi-sub" id="kpiSubsSub">Loading…</div>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="section-header">Distribution charts</div>
+<div class="charts-grid">
+  <div class="chart-card">
+    <div class="chart-title">Product sales distribution</div>
+    <div class="chart-subtitle" id="prodChartSub">Loading…</div>
+    <div class="chart-wrap"><canvas id="productChart" role="img" aria-label="Product sales distribution donut chart"></canvas></div>
+    <div class="legend" id="prodLegend"></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Subscriber distribution</div>
+    <div class="chart-subtitle" id="subChartSub">Loading…</div>
+    <div class="chart-wrap"><canvas id="subChart" role="img" aria-label="Email subscriber distribution donut chart"></canvas></div>
+    <div class="legend" id="subLegend"></div>
+  </div>
+</div>
+
+<!-- Product Performance + Sales Trend -->
+<div class="two-col">
+  <div>
+    <div class="section-header">Top product performance</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Product</th><th>Units</th><th>Revenue</th><th>% Sales</th>
+          </tr>
+        </thead>
+        <tbody id="productTable"><tr><td colspan="5" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div>
+    <div class="section-header">Sales trend</div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr><th>Period</th><th>Revenue</th><th>Orders</th><th>Trend</th></tr>
+        </thead>
+        <tbody id="trendTable"><tr><td colspan="4" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>KVORE · Powered by Claude + Shopify</span>
+  <span id="footerTs">—</span>
+</div>
+
+<script>
+const COLORS = ['#534AB7','#5DCAA5','#D85A30','#D4537E','#EF9F27','#7F77DD','#888780'];
+
+let productChartInst = null;
+let subChartInst     = null;
+
+function fmt(n) {
+  return new Intl.NumberFormat('en-AU', { style:'currency', currency:'AUD', maximumFractionDigits:2 }).format(n);
+}
+
+function buildLegend(id, labels, data, colors) {
+  const total = data.reduce((a,b)=>a+b,0);
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  labels.forEach((lbl,i) => {
+    if (data[i] <= 0) return;
+    const pct = total > 0 ? Math.round((data[i]/total)*100) : 0;
+    el.innerHTML += `<span class="legend-item">
+      <span class="legend-dot" style="background:${colors[i]}"></span>
+      ${lbl}&nbsp;<span class="legend-val">${pct}%</span>
+    </span>`;
+  });
+}
+
+function renderCharts(d) {
+  const sharedOpts = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { animateRotate: true, animateScale: true, duration: 1000, easing: 'easeInOutQuart' },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const total = ctx.dataset.data.reduce((a,b)=>a+b,0);
+            const pct = total > 0 ? Math.round((ctx.parsed/total)*100) : 0;
+            return ` ${ctx.label}: ${ctx.parsed} (${pct}%)`;
+          }
+        }
+      }
+    }
+  };
+
+  // Product distribution — by revenue if any, else by inventory
+  const hasRevenue = d.products.some(p => p.revenue > 0);
+  const prodLabels = d.products.filter(p=>p.inventory>0||p.unitsSold>0).map(p=>p.name.replace(' Essential Socks',' Socks').replace(' Box Tee',' Box').replace(' Fragment Tee',' Fragment').replace(' Highway Tee',' Highway').replace(' Moto Tee',' Moto'));
+  const prodData   = d.products.filter(p=>p.inventory>0||p.unitsSold>0).map(p => hasRevenue ? p.revenue : p.inventory);
+  const prodColors = COLORS.slice(0, prodLabels.length);
+
+  document.getElementById('prodChartSub').textContent = hasRevenue
+    ? `Revenue split · ${fmt(d.metrics.totalRevenue)} total`
+    : `Inventory distribution · ${d.metrics.totalInventory} units · pre-launch`;
+
+  if (productChartInst) productChartInst.destroy();
+  productChartInst = new Chart(document.getElementById('productChart'), {
+    type: 'doughnut',
+    data: { labels: prodLabels, datasets: [{ data: prodData, backgroundColor: prodColors, borderWidth: 2, borderColor: '#111111', hoverOffset: 10 }] },
+    options: { ...sharedOpts, cutout: '64%' }
+  });
+  buildLegend('prodLegend', prodLabels, prodData, prodColors);
+
+  // Subscriber distribution
+  const subLabels = ['Subscribed','Not Subscribed','Unsubscribed'];
+  const subData   = [d.metrics.activeSubscribers, d.metrics.notSubscribed, d.metrics.unsubscribed];
+  const subColors = ['#534AB7','#888780','#E24B4A'];
+
+  document.getElementById('subChartSub').textContent = `${d.metrics.totalCustomers} customers total`;
+
+  if (subChartInst) subChartInst.destroy();
+  subChartInst = new Chart(document.getElementById('subChart'), {
+    type: 'doughnut',
+    data: { labels: subLabels, datasets: [{ data: subData, backgroundColor: subColors, borderWidth: 2, borderColor: '#111111', hoverOffset: 10 }] },
+    options: { ...sharedOpts, cutout: '64%' }
+  });
+  buildLegend('subLegend', subLabels, subData, subColors);
+}
+
+function renderProducts(d) {
+  const total = d.metrics.totalRevenue;
+  const rows = [...d.products]
+    .sort((a,b) => b.unitsSold - a.unitsSold || b.revenue - a.revenue)
+    .map((p,i) => {
+      const pct = total > 0 ? ((p.revenue/total)*100).toFixed(1)+'%' : '<span class="zero">—</span>';
+      const rev = p.revenue > 0 ? fmt(p.revenue) : '<span class="zero">$0.00</span>';
+      const units = p.unitsSold > 0 ? p.unitsSold : '<span class="zero">0</span>';
+      return `<tr>
+        <td class="rank">${i+1}</td>
+        <td><span class="product-name">${p.name}</span><span class="product-type">${p.type}</span></td>
+        <td>${units}</td><td>${rev}</td><td>${pct}</td>
+      </tr>`;
+    }).join('');
+  document.getElementById('productTable').innerHTML = rows;
+}
+
+function renderTrend(d) {
+  const t = d.salesTrend;
+  const periods = [
+    { label:'Today',       data: t.today },
+    { label:'This week',   data: t.thisWeek },
+    { label:'This month',  data: t.thisMonth },
+    { label:'Last 30 days',data: t.last30Days }
+  ];
+  const prevRev = t.prevMonth?.revenue || 0;
+  const rows = periods.map(p => {
+    const rev = p.data.revenue > 0 ? fmt(p.data.revenue) : '<span class="zero">$0.00</span>';
+    const ord = p.data.orders > 0 ? p.data.orders : '<span class="zero">0</span>';
+    let trend = '<span class="trend-flat">→ Flat</span>';
+    if (p.label === 'Last 30 days' && prevRev > 0) {
+      const g = ((p.data.revenue - prevRev) / prevRev * 100).toFixed(1);
+      trend = g > 0
+        ? `<span class="trend-up">↑ ${g}%</span>`
+        : g < 0
+        ? `<span class="trend-down">↓ ${Math.abs(g)}%</span>`
+        : '<span class="trend-flat">→ 0%</span>';
+    }
+    return `<tr><td>${p.label}</td><td>${rev}</td><td>${ord}</td><td>${trend}</td></tr>`;
+  }).join('');
+  document.getElementById('trendTable').innerHTML = rows;
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    const d   = await res.json();
+
+    // Header
+    const dt = new Date(d.lastUpdated);
+    const ts = dt.toLocaleString('en-AU', { dateStyle:'medium', timeStyle:'short' });
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + ts;
+    document.getElementById('footerTs').textContent = 'Data as of ' + ts;
+
+    // KPIs
+    document.getElementById('kpiRevenue').textContent = fmt(d.metrics.totalRevenue);
+    document.getElementById('kpiRevenueSub').textContent = d.metrics.totalRevenue === 0 ? 'Pre-launch · no orders yet' : `${d.metrics.totalOrders} order${d.metrics.totalOrders !== 1 ? 's' : ''}`;
+    document.getElementById('kpiOrders').textContent = d.metrics.totalOrders;
+    document.getElementById('kpiOrdersSub').textContent = d.metrics.totalOrders === 0 ? 'No orders yet' : 'Total fulfilled';
+    document.getElementById('kpiAOV').textContent = d.metrics.aov > 0 ? fmt(d.metrics.aov) : '—';
+    document.getElementById('kpiAOVSub').textContent = d.metrics.aov > 0 ? 'Per order average' : 'Activates on first sale';
+    document.getElementById('kpiSubs').textContent = d.metrics.activeSubscribers;
+    const subPct = d.metrics.totalCustomers > 0 ? Math.round((d.metrics.activeSubscribers/d.metrics.totalCustomers)*100) : 0;
+    document.getElementById('kpiSubsSub').textContent = `${subPct}% of ${d.metrics.totalCustomers} customers`;
+
+    renderCharts(d);
+    renderProducts(d);
+    renderTrend(d);
+
+  } catch(e) {
+    console.error('Failed to load data.json', e);
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>
