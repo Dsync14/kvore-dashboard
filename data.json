@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-16T13:38:38.680Z",
+  "lastUpdated": "2026-07-17T02:08:17.416Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -41,10 +41,6 @@
     }
   },
   "dailyRevenue": [
-    {
-      "date": "2026-06-17",
-      "revenue": 0
-    },
     {
       "date": "2026-06-18",
       "revenue": 0
@@ -159,6 +155,10 @@
     },
     {
       "date": "2026-07-16",
+      "revenue": 0
+    },
+    {
+      "date": "2026-07-17",
       "revenue": 0
     }
   ],
