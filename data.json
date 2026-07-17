@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-17T02:08:17.416Z",
+  "lastUpdated": "2026-07-17T13:16:20.945Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -7,7 +7,7 @@
     "totalRevenue": 47.99,
     "totalOrders": 2,
     "aov": 23.99,
-    "totalCustomers": 10,
+    "totalCustomers": 7,
     "activeSubscribers": 5,
     "notSubscribed": 1,
     "unsubscribed": 0,
