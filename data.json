@@ -1,39 +1,39 @@
 {
-  "lastUpdated": "2026-08-16T00:57:40.088Z",
+  "lastUpdated": "2026-08-16T12:27:49.331Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
   "metrics": {
-    "totalRevenue": 47.99,
-    "totalOrders": 2,
-    "aov": 23.99,
+    "totalRevenue": 77.98,
+    "totalOrders": 3,
+    "aov": 25.99,
     "totalCustomers": 7,
     "activeSubscribers": 5,
     "notSubscribed": 1,
     "unsubscribed": 0,
     "totalProducts": 7,
-    "totalInventory": 319
+    "totalInventory": 318
   },
   "salesTrend": {
     "today": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 29.99,
+      "orders": 1,
+      "trend": "up"
     },
     "thisWeek": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 29.99,
+      "orders": 1,
+      "trend": "up"
     },
     "thisMonth": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 29.99,
+      "orders": 1,
+      "trend": "up"
     },
     "last30Days": {
-      "revenue": 0,
-      "orders": 0,
-      "trend": "flat"
+      "revenue": 29.99,
+      "orders": 1,
+      "trend": "up"
     },
     "prevMonth": {
       "revenue": 0,
@@ -159,7 +159,7 @@
     },
     {
       "date": "2026-08-16",
-      "revenue": 0
+      "revenue": 29.99
     }
   ],
   "products": [
@@ -168,9 +168,9 @@
       "type": "Socks",
       "sku": "KV-SK-BLK",
       "price": 19.99,
-      "inventory": 49,
-      "unitsSold": 2,
-      "revenue": 39.98
+      "inventory": 48,
+      "unitsSold": 3,
+      "revenue": 59.97
     },
     {
       "name": "Blue Label Fragment Tee",
@@ -229,8 +229,8 @@
   ],
   "categoryDistribution": {
     "Socks": {
-      "units": 99,
-      "revenue": 39.98
+      "units": 98,
+      "revenue": 59.97
     },
     "T Shirt": {
       "units": 220,
@@ -242,6 +242,13 @@
     }
   },
   "recentOrders": [
+    {
+      "id": 1003,
+      "date": "2026-08-16T22:02:25+10:00",
+      "customer": "Divjyot Singh",
+      "total": 29.99,
+      "status": "paid"
+    },
     {
       "id": 1002,
       "date": "2026-06-21T23:26:52+10:00",
