@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-16T12:27:49.331Z",
+  "lastUpdated": "2026-08-17T00:55:24.217Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -12,18 +12,18 @@
     "notSubscribed": 1,
     "unsubscribed": 0,
     "totalProducts": 7,
-    "totalInventory": 318
+    "totalInventory": 319
   },
   "salesTrend": {
     "today": {
-      "revenue": 29.99,
-      "orders": 1,
-      "trend": "up"
+      "revenue": 0,
+      "orders": 0,
+      "trend": "flat"
     },
     "thisWeek": {
-      "revenue": 29.99,
-      "orders": 1,
-      "trend": "up"
+      "revenue": 0,
+      "orders": 0,
+      "trend": "flat"
     },
     "thisMonth": {
       "revenue": 29.99,
@@ -41,10 +41,6 @@
     }
   },
   "dailyRevenue": [
-    {
-      "date": "2026-07-18",
-      "revenue": 0
-    },
     {
       "date": "2026-07-19",
       "revenue": 0
@@ -160,6 +156,10 @@
     {
       "date": "2026-08-16",
       "revenue": 29.99
+    },
+    {
+      "date": "2026-08-17",
+      "revenue": 0
     }
   ],
   "products": [
@@ -168,7 +168,7 @@
       "type": "Socks",
       "sku": "KV-SK-BLK",
       "price": 19.99,
-      "inventory": 48,
+      "inventory": 49,
       "unitsSold": 3,
       "revenue": 59.97
     },
@@ -229,7 +229,7 @@
   ],
   "categoryDistribution": {
     "Socks": {
-      "units": 98,
+      "units": 99,
       "revenue": 59.97
     },
     "T Shirt": {
