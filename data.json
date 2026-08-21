@@ -1,12 +1,12 @@
 {
-  "lastUpdated": "2026-08-20T12:36:06.090Z",
+  "lastUpdated": "2026-08-21T00:58:18.403Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
   "metrics": {
-    "totalRevenue": 19.99,
-    "totalOrders": 1,
-    "aov": 19.99,
+    "totalRevenue": 0,
+    "totalOrders": 0,
+    "aov": 0,
     "totalCustomers": 7,
     "activeSubscribers": 5,
     "notSubscribed": 1,
@@ -41,10 +41,6 @@
     }
   },
   "dailyRevenue": [
-    {
-      "date": "2026-07-22",
-      "revenue": 0
-    },
     {
       "date": "2026-07-23",
       "revenue": 0
@@ -160,6 +156,10 @@
     {
       "date": "2026-08-20",
       "revenue": 0
+    },
+    {
+      "date": "2026-08-21",
+      "revenue": 0
     }
   ],
   "products": [
@@ -169,8 +169,8 @@
       "sku": "KV-SK-BLK",
       "price": 19.99,
       "inventory": 49,
-      "unitsSold": 1,
-      "revenue": 19.99
+      "unitsSold": 0,
+      "revenue": 0
     },
     {
       "name": "Blue Label Fragment Tee",
@@ -230,7 +230,7 @@
   "categoryDistribution": {
     "Socks": {
       "units": 99,
-      "revenue": 19.99
+      "revenue": 0
     },
     "T Shirt": {
       "units": 220,
@@ -241,13 +241,5 @@
       "revenue": 0
     }
   },
-  "recentOrders": [
-    {
-      "id": 1002,
-      "date": "2026-06-21T23:26:52+10:00",
-      "customer": "Guest",
-      "total": 19.99,
-      "status": "paid"
-    }
-  ]
+  "recentOrders": []
 }
