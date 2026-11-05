@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-05T04:45:27.381Z",
+  "lastUpdated": "2026-11-05T19:22:22.621Z",
   "store": "Kvore",
   "domain": "kvore.com.au",
   "currency": "AUD",
@@ -12,7 +12,7 @@
     "notSubscribed": 1,
     "unsubscribed": 0,
     "totalProducts": 7,
-    "totalInventory": 319
+    "totalInventory": 305
   },
   "salesTrend": {
     "today": {
@@ -167,8 +167,8 @@
       "name": "Black Essential Socks",
       "type": "Socks",
       "sku": "KV-SK-BLK",
-      "price": 19.99,
-      "inventory": 49,
+      "price": 15,
+      "inventory": 46,
       "unitsSold": 0,
       "revenue": 0
     },
@@ -176,8 +176,8 @@
       "name": "Blue Label Fragment Tee",
       "type": "T Shirt",
       "sku": "KV-TS-BLF-S",
-      "price": 64.99,
-      "inventory": 55,
+      "price": 65,
+      "inventory": 52,
       "unitsSold": 0,
       "revenue": 0
     },
@@ -185,8 +185,8 @@
       "name": "Off Radar Moto Tee",
       "type": "T Shirt",
       "sku": "KV-TS-ORW-S",
-      "price": 59.99,
-      "inventory": 55,
+      "price": 60,
+      "inventory": 52,
       "unitsSold": 0,
       "revenue": 0
     },
@@ -203,17 +203,17 @@
       "name": "Szn 01 Highway Tee",
       "type": "T Shirt",
       "sku": "KV-TS-ORB-S",
-      "price": 59.99,
+      "price": 60,
       "inventory": 55,
       "unitsSold": 0,
       "revenue": 0
     },
     {
-      "name": "Unstelle Box Tee",
+      "name": "Unsettle Box Tee",
       "type": "T Shirt",
       "sku": "KV-TS-MU-S",
-      "price": 59.99,
-      "inventory": 55,
+      "price": 60,
+      "inventory": 54,
       "unitsSold": 0,
       "revenue": 0
     },
@@ -221,19 +221,19 @@
       "name": "White Essential Socks",
       "type": "Socks",
       "sku": "KV-SK-WHT",
-      "price": 19.99,
-      "inventory": 50,
+      "price": 15,
+      "inventory": 46,
       "unitsSold": 0,
       "revenue": 0
     }
   ],
   "categoryDistribution": {
     "Socks": {
-      "units": 99,
+      "units": 92,
       "revenue": 0
     },
     "T Shirt": {
-      "units": 220,
+      "units": 213,
       "revenue": 0
     },
     "Other": {
